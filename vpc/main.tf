@@ -1,5 +1,5 @@
 resource "aws_vpc" "my_vpc" {
-  cidr_block = var.vpc_cidr_block
+  cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
 
   tags = {
@@ -9,9 +9,9 @@ resource "aws_vpc" "my_vpc" {
 
 resource "aws_subnet" "private_subnets" {
   count = length(var.private_subnets)
-  
-  vpc_id = aws_vpc.my_vpc.id
-  cidr_block = var.private_subnets[count.index]
+
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = var.private_subnets[count.index]
   availability_zone = var.availability_zone[count.index % length(var.availability_zone)]
 
   tags = {
@@ -21,9 +21,9 @@ resource "aws_subnet" "private_subnets" {
 
 resource "aws_subnet" "public_subnets" {
   count = length(var.public_subnets)
-  
-  vpc_id = aws_vpc.my_vpc.id
-  cidr_block = var.public_subnets[count.index]
+
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = var.public_subnets[count.index]
   availability_zone = var.availability_zone[count.index % length(var.availability_zone)]
 
   tags = {
@@ -53,7 +53,7 @@ resource "aws_route_table" "public_rt" {
 }
 
 resource "aws_route_table_association" "public_association" {
-  for_each = { for k,v in aws_subnet.public_subnets : k => v }
+  for_each  = { for k, v in aws_subnet.public_subnets : k => v }
   subnet_id = each.value.id
   # count = length(aws_subnet.public_subnets)
   # subnet_id = aws_subnet.public_subnets[count.index].id

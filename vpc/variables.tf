@@ -9,12 +9,12 @@ variable "vpc_cidr_block" {
 
 variable "private_subnets" {
   description = "List of private subnets"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "public_subnets" {
   description = "List of public subnets"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "availability_zone" {
